@@ -2,6 +2,8 @@
   import Pomodoro from './Pomodoro.svelte';
   import { formatTime } from './utils';
 
+  export let audio = new Audio('audio/weird-scream.wav');
+
   const MINUTES_IN_MS = 60 * 1000;
 
   const timers = {
@@ -42,7 +44,6 @@
   $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
 
   const playSound = () => {
-    const audio = new Audio('audio/weird-scream.wav');
     audio.play();
   };
 
