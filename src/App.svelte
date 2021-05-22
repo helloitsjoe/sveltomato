@@ -103,8 +103,14 @@
     </div>
     <button class="text" on:click={reset}>Reset</button>
   </div>
-  {#if userSaid}
+  {#if !speech}
+    <div class="speech">Speech recognition not supported on this device</div>
+  {:else if userSaid}
     <div class="speech">You said "{userSaid}"</div>
+  {:else}
+    <div class="speech">
+      Waiting for a command - try "start timer" or "stop timer"
+    </div>
   {/if}
 </main>
 

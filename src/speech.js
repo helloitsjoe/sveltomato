@@ -1,7 +1,11 @@
 import annyang from 'annyang';
 
 export const createSpeechApi = commands => {
-  // annyang.init();
+  if (!annyang) {
+    // SpeechRecognition API not supported
+    return null;
+  }
+
   annyang.addCommands(commands);
   annyang.debug();
   annyang.start();
