@@ -63,6 +63,9 @@
     play();
   };
 
+  const resultMatch = result => (userSaid = result);
+  const resultNoMatch = result => (userSaid = 'No match...');
+
   export let speech = createSpeechApi({
     'play (timer)': play,
     'start (timer)': play,
@@ -73,10 +76,9 @@
     '(start) pomodoro (timer)': () => handleTimer(timers.pomodoro),
     '(start) short (break)': () => handleTimer(timers.short),
     '(start) long (break)': () => handleTimer(timers.long),
+    resultMatch,
+    resultNoMatch,
   });
-
-  speech.addCallback('resultMatch', result => (userSaid = result));
-  speech.addCallback('resultNoMatch', () => (userSaid = 'No match...'));
 </script>
 
 <main>

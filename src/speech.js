@@ -5,6 +5,12 @@ export const createSpeechApi = commands => {
   annyang.addCommands(commands);
   annyang.debug();
   annyang.start();
+  if (commands.resultMatch) {
+    annyang.addCallback('resultMatch', resultMatch);
+  }
+  if (commands.resultNoMatch) {
+    annyang.addCallback('resultNoMatch', resultNoMatch);
+  }
   return annyang;
 };
 
