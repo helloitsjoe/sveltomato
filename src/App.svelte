@@ -64,7 +64,7 @@
   };
 
   const resultMatch = result => (userSaid = result);
-  const resultNoMatch = result => (userSaid = 'No match...');
+  const resultNoMatch = () => (userSaid = 'Unknown...');
 
   export let speech = createSpeechApi({
     'play (timer)': play,
@@ -104,7 +104,7 @@
     <button class="text" on:click={reset}>Reset</button>
   </div>
   {#if userSaid}
-    <div>{userSaid}</div>
+    <div class="speech">You said "{userSaid}"</div>
   {/if}
 </main>
 
@@ -167,5 +167,11 @@
   .controls button.active {
     background-color: white;
     color: limegreen;
+  }
+
+  .speech {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: tomato;
   }
 </style>
