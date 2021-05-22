@@ -23,7 +23,7 @@ export const createSpeechApi = ({
     'pause (the) (timer)': pause,
     'stop (the) (timer)': pause,
     'reset (the) (timer)': reset,
-    '(start) (the) work (timer)': () => startNewTimer(timers.pomodoro),
+    '(start) (the) (a) work (timer)': () => startNewTimer(timers.pomodoro),
     '(start) (take) (a) :length (break)': length =>
       startNewTimer(timers[length]),
   };
