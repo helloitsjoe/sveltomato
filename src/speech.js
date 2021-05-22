@@ -5,6 +5,7 @@ export const createSpeechApi = commands => {
   annyang.addCommands(commands);
   annyang.debug();
   annyang.start();
+  return annyang;
 };
 
 // export const createSpeechApi = () => {

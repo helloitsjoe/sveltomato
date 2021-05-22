@@ -17,6 +17,7 @@
   // save timers
 
   let tomatoText = 'Lavora!';
+  let userSaid = '';
 
   $: getActive = timer => (timer === currentTimer ? 'active' : '');
   $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
@@ -63,16 +64,19 @@
   };
 
   export let speech = createSpeechApi({
-    'play *timer': play,
-    'start *timer': play,
-    'pause *timer': pause,
-    'stop *timer': pause,
-    'reset *timer': reset,
-    work: () => handleTimer(timers.pomodoro),
-    pomodoro: () => handleTimer(timers.pomodoro),
-    short: () => handleTimer(timers.short),
-    long: () => handleTimer(timers.long),
+    'play (timer)': play,
+    'start (timer)': play,
+    'pause (timer)': pause,
+    'stop (timer)': pause,
+    'reset (timer)': reset,
+    '(start) work': () => handleTimer(timers.pomodoro),
+    '(start) pomodoro (timer)': () => handleTimer(timers.pomodoro),
+    '(start) short (break)': () => handleTimer(timers.short),
+    '(start) long (break)': () => handleTimer(timers.long),
   });
+
+  speech.addCallback('resultMatch', result => (userSaid = result));
+  speech.addCallback('resultNoMatch', () => (userSaid = 'No match...'));
 </script>
 
 <main>
@@ -97,6 +101,9 @@
     </div>
     <button class="text" on:click={reset}>Reset</button>
   </div>
+  {#if userSaid}
+    <div>{userSaid}</div>
+  {/if}
 </main>
 
 <style>
