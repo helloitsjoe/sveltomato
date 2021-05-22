@@ -6,10 +6,10 @@ export const createSpeechApi = commands => {
   annyang.debug();
   annyang.start();
   if (commands.resultMatch) {
-    annyang.addCallback('resultMatch', resultMatch);
+    annyang.addCallback('resultMatch', commands.resultMatch);
   }
   if (commands.resultNoMatch) {
-    annyang.addCallback('resultNoMatch', resultNoMatch);
+    annyang.addCallback('resultNoMatch', commands.resultNoMatch);
   }
   return annyang;
 };
