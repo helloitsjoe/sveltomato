@@ -9,7 +9,7 @@ const MINUTES_IN_MS = 60 * 1000;
 export const timers = {
   pomodoro: {
     time: 25 * MINUTES_IN_MS,
-    text: 'Lavora!',
+    text: 'Get to work!',
   },
   short: {
     time: 5 * MINUTES_IN_MS,
@@ -17,10 +17,6 @@ export const timers = {
   },
   long: {
     time: 15 * MINUTES_IN_MS,
-    text: 'Dai. Relax.',
-  },
-  test: {
-    time: 3000,
-    text: 'Testing',
+    text: 'Seriously. Relax.',
   },
 };

@@ -4,9 +4,33 @@
   import { formatTime, timers } from './utils';
 
   export let audio = new Audio('audio/weird-scream.wav');
+<<<<<<< HEAD
   export let seconds = new URLSearchParams(window.location.search).get(
     'seconds'
   );
+=======
+
+  const MINUTES_IN_MS = 60 * 1000;
+
+  const timers = {
+    pomodoro: {
+      time: 25 * MINUTES_IN_MS,
+      text: 'Get to work!',
+    },
+    short: {
+      time: 5 * MINUTES_IN_MS,
+      text: 'Relax.',
+    },
+    long: {
+      time: 15 * MINUTES_IN_MS,
+      text: 'Seriously. Relax.',
+    },
+  };
+
+  // export let initialTime = timers.pomodoro.time;
+  const params = new URLSearchParams(window.location.search);
+  const seconds = params.get('seconds');
+>>>>>>> main
 
   let interval;
   let running = false;
@@ -16,8 +40,12 @@
   // custom timers
   // save timers
 
-  let tomatoText = 'Get to work!';
+<<<<<<< HEAD
+  let tomatoText = 'Lavora!';
   let userSaid = '';
+=======
+  let tomatoText = 'Get to work!';
+>>>>>>> main
 
   $: getActive = timer => (timer === currentTimer ? 'active' : '');
   $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
@@ -89,11 +117,19 @@
       >
       <button
         class={getActive(timers.short)}
-        on:click={() => startNewTimer(timers.short)}>Short break</button
+<<<<<<< HEAD
+        on:click={() => startNewTimer(timers.short)}>Festa corta</button
       >
       <button
         class={getActive(timers.long)}
-        on:click={() => startNewTimer(timers.long)}>Long break</button
+        on:click={() => startNewTimer(timers.long)}>Festa lunga</button
+=======
+        on:click={() => handleTimer(timers.short)}>Short break</button
+      >
+      <button
+        class={getActive(timers.long)}
+        on:click={() => handleTimer(timers.long)}>Long break</button
+>>>>>>> main
       >
     </div>
     <button class="text" on:click={reset}>Reset</button>

@@ -18,13 +18,14 @@ export const createSpeechApi = ({
   }
 
   const commands = {
-    'play (timer)': play,
-    'start (timer)': play,
-    'pause (timer)': pause,
-    'stop (timer)': pause,
-    'reset (timer)': reset,
-    '(start) work': () => startNewTimer(timers.pomodoro),
-    '(start) :length (break)': () => startNewTimer(timers[length]),
+    'play (the) (timer)': play,
+    'start (the) (timer)': play,
+    'pause (the) (timer)': pause,
+    'stop (the) (timer)': pause,
+    'reset (the) (timer)': reset,
+    '(start) (the) work (timer)': () => startNewTimer(timers.pomodoro),
+    '(start) (take) (a) :length (break)': length =>
+      startNewTimer(timers[length]),
   };
 
   api.addCommands(commands);

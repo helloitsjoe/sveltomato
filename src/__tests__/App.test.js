@@ -7,11 +7,11 @@ const speech = {};
 
 describe('App', () => {
   it('pomodoro button shows 25 minutes', async () => {
-    render(App, { speech });
+    render(App);
 
     // Shows 'Lavora' text by default
     const tomatoButton = queryByTestId('tomato-button');
-    expect(tomatoButton.textContent).toMatch(/lavora/i);
+    expect(tomatoButton.textContent).toMatch(/get to work/i);
     expect(tomatoButton.textContent).not.toMatch(/relax/i);
 
     expect(queryByRole('button', { name: /reset/i })).toBeTruthy();
@@ -23,32 +23,23 @@ describe('App', () => {
   });
 
   it('short break button shows 5 minutes', async () => {
-    render(App, { speech });
+    render(App);
 
     const tomatoButton = queryByTestId('tomato-button');
 
-    await fireEvent.click(queryByText(/corta/i));
+    await fireEvent.click(queryByText(/short/i));
     expect(tomatoButton.textContent).toMatch(/relax/i);
     expect(tomatoButton.textContent).toMatch(/5:00/);
   });
 
   it('long break button shows 15 minutes', async () => {
-    render(App, { speech });
+    render(App);
 
     const tomatoButton = queryByTestId('tomato-button');
 
-    await fireEvent.click(queryByText(/lunga/i));
-    expect(tomatoButton.textContent).toMatch(/dai. relax/i);
+    await fireEvent.click(queryByText(/long/i));
+    expect(tomatoButton.textContent).toMatch(/seriously. relax/i);
     expect(tomatoButton.textContent).toMatch(/15:00/);
-  });
-
-  it('"seconds" prop sets a timer for that amount', async () => {
-    render(App, { seconds: '3', speech });
-
-    const tomatoButton = queryByTestId('tomato-button');
-
-    expect(tomatoButton.textContent).toMatch(/lavora/i);
-    expect(tomatoButton.textContent).toMatch(/0:03/);
   });
 });
 
@@ -91,7 +82,7 @@ describe('timers', () => {
     expect(audio.play).not.toHaveBeenCalled();
 
     await jest.advanceTimersByTime(twentyFiveMinutesInMs);
-    expect(tomatoBtn.textContent).toMatch(/festa! 0:00/i);
+    expect(tomatoBtn.textContent).toMatch(/party! 0:00/i);
 
     // A sound should be played once the timer has finished.
     expect(audio.play).toHaveBeenCalled();
