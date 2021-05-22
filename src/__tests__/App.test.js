@@ -15,7 +15,7 @@ describe('timers', () => {
   it('pomodoro timer shows 20:00 when 5 minutes have passed', async () => {
     const audio = { play: jest.fn() };
 
-    render(App, {props: {audio}});
+    render(App, { props: { audio } });
 
     const tomatoBtn = queryByTestId('tomato-button');
     const fiveMinutesInMs = 5 * 60 * 1000;
@@ -30,7 +30,7 @@ describe('timers', () => {
   it('plays audio when timer reaches 0:00', async () => {
     const audio = { play: jest.fn() };
 
-    render(App, {props: {audio}});
+    render(App, { props: { audio } });
 
     const tomatoBtn = queryByTestId('tomato-button');
     const twentyFiveMinutesInMs = 25 * 60 * 1000;
@@ -42,7 +42,7 @@ describe('timers', () => {
     expect(audio.play).not.toHaveBeenCalled();
 
     await jest.advanceTimersByTime(twentyFiveMinutesInMs);
-    expect(tomatoBtn.textContent).toMatch(/festa! 0:00/i);
+    expect(tomatoBtn.textContent).toMatch(/party! 0:00/i);
 
     // A sound should be played once the timer has finished.
     expect(audio.play).toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe('App', () => {
 
     // Shows 'Lavora' text by default
     const tomatoButton = queryByTestId('tomato-button');
-    expect(tomatoButton.textContent).toMatch(/lavora/i);
+    expect(tomatoButton.textContent).toMatch(/get to work/i);
     expect(tomatoButton.textContent).not.toMatch(/relax/i);
 
     expect(queryByRole('button', { name: /reset/i })).toBeTruthy();
@@ -71,7 +71,7 @@ describe('App', () => {
 
     const tomatoButton = queryByTestId('tomato-button');
 
-    await fireEvent.click(queryByText(/corta/i));
+    await fireEvent.click(queryByText(/short/i));
     expect(tomatoButton.textContent).toMatch(/relax/i);
     expect(tomatoButton.textContent).toMatch(/5:00/);
   });
@@ -81,8 +81,8 @@ describe('App', () => {
 
     const tomatoButton = queryByTestId('tomato-button');
 
-    await fireEvent.click(queryByText(/lunga/i));
-    expect(tomatoButton.textContent).toMatch(/dai. relax/i);
+    await fireEvent.click(queryByText(/long/i));
+    expect(tomatoButton.textContent).toMatch(/seriously. relax/i);
     expect(tomatoButton.textContent).toMatch(/15:00/);
   });
 });

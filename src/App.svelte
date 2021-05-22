@@ -9,7 +9,7 @@
   const timers = {
     pomodoro: {
       time: 25 * MINUTES_IN_MS,
-      text: 'Lavora!',
+      text: 'Get to work!',
     },
     short: {
       time: 5 * MINUTES_IN_MS,
@@ -17,17 +17,12 @@
     },
     long: {
       time: 15 * MINUTES_IN_MS,
-      text: 'Dai. Relax.',
-    },
-    test: {
-      time: 3000,
-      text: 'Testing',
+      text: 'Seriously. Relax.',
     },
   };
 
   // export let initialTime = timers.pomodoro.time;
   const params = new URLSearchParams(window.location.search);
-  const showTest = params.get('test');
   const seconds = params.get('seconds');
 
   let interval;
@@ -38,7 +33,7 @@
   // custom timers
   // save timers
 
-  let tomatoText = 'Lavora!';
+  let tomatoText = 'Get to work!';
 
   $: getActive = timer => (timer === currentTimer ? 'active' : '');
   $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
@@ -58,7 +53,7 @@
       if (timeLeft <= 0) {
         timeLeft = 0;
         clearInterval(interval);
-        tomatoText = 'Festa!';
+        tomatoText = 'Party!';
         playSound();
         // Make some noise
       }
@@ -87,11 +82,6 @@
 
 <main>
   <div>
-    <!-- <audio>
-      <source src="foo.mp3" type="audio/mpeg" />
-      <track kind="captions" />
-    </audio> -->
-
     <Pomodoro text={tomatoText} {timeLeft} on:click={handlePlayPause} />
   </div>
   <div class="panel">
@@ -103,18 +93,12 @@
       >
       <button
         class={getActive(timers.short)}
-        on:click={() => handleTimer(timers.short)}>Festa corta</button
+        on:click={() => handleTimer(timers.short)}>Short break</button
       >
       <button
         class={getActive(timers.long)}
-        on:click={() => handleTimer(timers.long)}>Festa lunga</button
+        on:click={() => handleTimer(timers.long)}>Long break</button
       >
-      {#if showTest}
-        <button
-          class={getActive(timers.test)}
-          on:click={() => handleTimer(timers.test)}>Test</button
-        >
-      {/if}
     </div>
     <button class="text" on:click={handleReset}>Reset</button>
   </div>
