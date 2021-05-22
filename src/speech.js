@@ -1,21 +1,39 @@
 import annyang from 'annyang';
+import { timers } from './utils';
 
-export const createSpeechApi = commands => {
-  if (!annyang) {
+const noop = name => () => console.log(`No handler for ${name}`);
+
+export const createSpeechApi = ({
+  play,
+  pause,
+  reset,
+  startNewTimer,
+  resultMatch = noop('resultMatch'),
+  resultNoMatch = noop('resultNoMatch'),
+  api = annyang,
+}) => {
+  if (!api) {
     // SpeechRecognition API not supported
     return null;
   }
 
-  annyang.addCommands(commands);
-  annyang.debug();
-  annyang.start();
-  if (commands.resultMatch) {
-    annyang.addCallback('resultMatch', commands.resultMatch);
-  }
-  if (commands.resultNoMatch) {
-    annyang.addCallback('resultNoMatch', commands.resultNoMatch);
-  }
-  return annyang;
+  const commands = {
+    'play (timer)': play,
+    'start (timer)': play,
+    'pause (timer)': pause,
+    'stop (timer)': pause,
+    'reset (timer)': reset,
+    '(start) work': () => startNewTimer(timers.pomodoro),
+    '(start) :length (break)': () => startNewTimer(timers[length]),
+  };
+
+  api.addCommands(commands);
+  api.debug();
+  api.start();
+  api.addCallback('resultMatch', resultMatch);
+  api.addCallback('resultNoMatch', resultNoMatch);
+
+  return api;
 };
 
 // export const createSpeechApi = () => {

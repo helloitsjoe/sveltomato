@@ -55,7 +55,7 @@
     pause();
   };
 
-  const handleTimer = type => {
+  const startNewTimer = type => {
     clearInterval(interval);
     timeLeft = type.time;
     tomatoText = type.text;
@@ -67,15 +67,10 @@
   const resultNoMatch = () => (userSaid = 'Unknown...');
 
   export let speech = createSpeechApi({
-    'play (timer)': play,
-    'start (timer)': play,
-    'pause (timer)': pause,
-    'stop (timer)': pause,
-    'reset (timer)': reset,
-    '(start) work': () => handleTimer(timers.pomodoro),
-    '(start) pomodoro (timer)': () => handleTimer(timers.pomodoro),
-    '(start) short (break)': () => handleTimer(timers.short),
-    '(start) long (break)': () => handleTimer(timers.long),
+    play,
+    pause,
+    reset,
+    startNewTimer,
     resultMatch,
     resultNoMatch,
   });
@@ -90,15 +85,15 @@
       <!-- TODO: Make this a radio group -->
       <button
         class={getActive(timers.pomodoro)}
-        on:click={() => handleTimer(timers.pomodoro)}>Pomodoro</button
+        on:click={() => startNewTimer(timers.pomodoro)}>Pomodoro</button
       >
       <button
         class={getActive(timers.short)}
-        on:click={() => handleTimer(timers.short)}>Festa corta</button
+        on:click={() => startNewTimer(timers.short)}>Festa corta</button
       >
       <button
         class={getActive(timers.long)}
-        on:click={() => handleTimer(timers.long)}>Festa lunga</button
+        on:click={() => startNewTimer(timers.long)}>Festa lunga</button
       >
     </div>
     <button class="text" on:click={reset}>Reset</button>
