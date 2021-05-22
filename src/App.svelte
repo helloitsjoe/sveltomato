@@ -1,34 +1,12 @@
 <script>
   import Pomodoro from './Pomodoro.svelte';
-  import { formatTime } from './utils';
+  import { createSpeechApi } from './speech';
+  import { formatTime, timers } from './utils';
 
   export let audio = new Audio('audio/weird-scream.wav');
-
-  const MINUTES_IN_MS = 60 * 1000;
-
-  const timers = {
-    pomodoro: {
-      time: 25 * MINUTES_IN_MS,
-      text: 'Lavora!',
-    },
-    short: {
-      time: 5 * MINUTES_IN_MS,
-      text: 'Relax.',
-    },
-    long: {
-      time: 15 * MINUTES_IN_MS,
-      text: 'Dai. Relax.',
-    },
-    test: {
-      time: 3000,
-      text: 'Testing',
-    },
-  };
-
-  // export let initialTime = timers.pomodoro.time;
-  const params = new URLSearchParams(window.location.search);
-  const showTest = params.get('test');
-  const seconds = params.get('seconds');
+  export let seconds = new URLSearchParams(window.location.search).get(
+    'seconds'
+  );
 
   let interval;
   let running = false;
@@ -70,7 +48,7 @@
     clearInterval(interval);
   };
 
-  const handleReset = () => {
+  const reset = () => {
     clearInterval(interval);
     timeLeft = currentTimer.time;
     pause();
@@ -83,15 +61,22 @@
     currentTimer = type;
     play();
   };
+
+  export let speech = createSpeechApi({
+    'play *timer': play,
+    'start *timer': play,
+    'pause *timer': pause,
+    'stop *timer': pause,
+    'reset *timer': reset,
+    work: () => handleTimer(timers.pomodoro),
+    pomodoro: () => handleTimer(timers.pomodoro),
+    short: () => handleTimer(timers.short),
+    long: () => handleTimer(timers.long),
+  });
 </script>
 
 <main>
   <div>
-    <!-- <audio>
-      <source src="foo.mp3" type="audio/mpeg" />
-      <track kind="captions" />
-    </audio> -->
-
     <Pomodoro text={tomatoText} {timeLeft} on:click={handlePlayPause} />
   </div>
   <div class="panel">
@@ -109,14 +94,8 @@
         class={getActive(timers.long)}
         on:click={() => handleTimer(timers.long)}>Festa lunga</button
       >
-      {#if showTest}
-        <button
-          class={getActive(timers.test)}
-          on:click={() => handleTimer(timers.test)}>Test</button
-        >
-      {/if}
     </div>
-    <button class="text" on:click={handleReset}>Reset</button>
+    <button class="text" on:click={reset}>Reset</button>
   </div>
 </main>
 
