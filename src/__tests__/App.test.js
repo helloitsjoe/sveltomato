@@ -41,6 +41,16 @@ describe('App', () => {
     expect(tomatoButton.textContent).toMatch(/seriously. relax/i);
     expect(tomatoButton.textContent).toMatch(/15:00/);
   });
+
+  it('enableSpeech: true enables speech', () => {
+    render(App, { speech, enableSpeech: true });
+    expect(screen.queryByText(/waiting for a command/i)).toBeTruthy();
+  });
+
+  it('enableSpeech: false diables speech', () => {
+    render(App, { speech, enableSpeech: false });
+    expect(screen.queryByText(/waiting for a command/i)).toBeNull();
+  });
 });
 
 describe('timers', () => {

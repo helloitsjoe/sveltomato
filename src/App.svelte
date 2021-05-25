@@ -4,9 +4,8 @@
   import { formatTime, timers } from './utils';
 
   export let audio = new Audio('audio/weird-scream.wav');
-  export let seconds = new URLSearchParams(window.location.search).get(
-    'seconds'
-  );
+  export let enableSpeech = new URLSearchParams(location.search).get('speech');
+  export let seconds = new URLSearchParams(location.search).get('seconds');
 
   let interval;
   let running = false;
@@ -66,14 +65,16 @@
   const resultMatch = result => (userSaid = result);
   const resultNoMatch = () => (userSaid = 'Unknown...');
 
-  export let speech = createSpeechApi({
-    play,
-    pause,
-    reset,
-    startNewTimer,
-    resultMatch,
-    resultNoMatch,
-  });
+  export let speech = enableSpeech
+    ? createSpeechApi({
+        play,
+        pause,
+        reset,
+        startNewTimer,
+        resultMatch,
+        resultNoMatch,
+      })
+    : null;
 </script>
 
 <main>
@@ -98,14 +99,16 @@
     </div>
     <button class="text" on:click={reset}>Reset</button>
   </div>
-  {#if !speech}
-    <div class="speech">Speech recognition not supported on this device</div>
-  {:else if userSaid}
-    <div class="speech">You said "{userSaid}"</div>
-  {:else}
-    <div class="speech">
-      Waiting for a command - try "start timer" or "stop timer"
-    </div>
+  {#if enableSpeech}
+    {#if !speech}
+      <div class="speech">Speech recognition not supported on this device</div>
+    {:else if userSaid}
+      <div class="speech">You said "{userSaid}"</div>
+    {:else}
+      <div class="speech">
+        Waiting for a command - try "start timer" or "stop timer"
+      </div>
+    {/if}
   {/if}
 </main>
 
