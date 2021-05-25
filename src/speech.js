@@ -29,10 +29,10 @@ export const createSpeechApi = ({
   };
 
   api.addCommands(commands);
-  api.debug();
-  api.start();
   api.addCallback('resultMatch', resultMatch);
   api.addCallback('resultNoMatch', resultNoMatch);
+  api.debug();
+  api.start();
 
   return api;
 };

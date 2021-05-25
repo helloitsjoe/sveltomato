@@ -7,7 +7,7 @@ const speech = {};
 
 describe('App', () => {
   it('pomodoro button shows 25 minutes', async () => {
-    render(App);
+    render(App, { speech });
 
     // Shows 'Lavora' text by default
     const tomatoButton = queryByTestId('tomato-button');
@@ -23,7 +23,7 @@ describe('App', () => {
   });
 
   it('short break button shows 5 minutes', async () => {
-    render(App);
+    render(App, { speech });
 
     const tomatoButton = queryByTestId('tomato-button');
 
@@ -33,7 +33,7 @@ describe('App', () => {
   });
 
   it('long break button shows 15 minutes', async () => {
-    render(App);
+    render(App, { speech });
 
     const tomatoButton = queryByTestId('tomato-button');
 
