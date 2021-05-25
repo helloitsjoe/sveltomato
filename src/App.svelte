@@ -1,29 +1,11 @@
 <script>
   import Pomodoro from './Pomodoro.svelte';
-  import { formatTime } from './utils';
+  import { createSpeechApi } from './speech';
+  import { formatTime, timers } from './utils';
 
   export let audio = new Audio('audio/weird-scream.wav');
-
-  const MINUTES_IN_MS = 60 * 1000;
-
-  const timers = {
-    pomodoro: {
-      time: 25 * MINUTES_IN_MS,
-      text: 'Get to work!',
-    },
-    short: {
-      time: 5 * MINUTES_IN_MS,
-      text: 'Relax.',
-    },
-    long: {
-      time: 15 * MINUTES_IN_MS,
-      text: 'Seriously. Relax.',
-    },
-  };
-
-  // export let initialTime = timers.pomodoro.time;
-  const params = new URLSearchParams(window.location.search);
-  const seconds = params.get('seconds');
+  export let enableSpeech = new URLSearchParams(location.search).get('speech');
+  export let seconds = new URLSearchParams(location.search).get('seconds');
 
   let interval;
   let running = false;
@@ -34,6 +16,7 @@
   // save timers
 
   let tomatoText = 'Get to work!';
+  let userSaid = '';
 
   $: getActive = timer => (timer === currentTimer ? 'active' : '');
   $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
@@ -65,19 +48,33 @@
     clearInterval(interval);
   };
 
-  const handleReset = () => {
+  const reset = () => {
     clearInterval(interval);
     timeLeft = currentTimer.time;
     pause();
   };
 
-  const handleTimer = type => {
+  const startNewTimer = type => {
     clearInterval(interval);
     timeLeft = type.time;
     tomatoText = type.text;
     currentTimer = type;
     play();
   };
+
+  const resultMatch = result => (userSaid = result);
+  const resultNoMatch = () => (userSaid = 'Unknown...');
+
+  export let speech = enableSpeech
+    ? createSpeechApi({
+        play,
+        pause,
+        reset,
+        startNewTimer,
+        resultMatch,
+        resultNoMatch,
+      })
+    : null;
 </script>
 
 <main>
@@ -89,19 +86,30 @@
       <!-- TODO: Make this a radio group -->
       <button
         class={getActive(timers.pomodoro)}
-        on:click={() => handleTimer(timers.pomodoro)}>Pomodoro</button
+        on:click={() => startNewTimer(timers.pomodoro)}>Pomodoro</button
       >
       <button
         class={getActive(timers.short)}
-        on:click={() => handleTimer(timers.short)}>Short break</button
+        on:click={() => startNewTimer(timers.short)}>Short break</button
       >
       <button
         class={getActive(timers.long)}
-        on:click={() => handleTimer(timers.long)}>Long break</button
+        on:click={() => startNewTimer(timers.long)}>Long break</button
       >
     </div>
-    <button class="text" on:click={handleReset}>Reset</button>
+    <button class="text" on:click={reset}>Reset</button>
   </div>
+  {#if enableSpeech}
+    {#if !speech}
+      <div class="speech">Speech recognition not supported on this device</div>
+    {:else if userSaid}
+      <div class="speech">You said "{userSaid}"</div>
+    {:else}
+      <div class="speech">
+        Waiting for a command - try "start timer" or "stop timer"
+      </div>
+    {/if}
+  {/if}
 </main>
 
 <style>
@@ -163,5 +171,11 @@
   .controls button.active {
     background-color: white;
     color: limegreen;
+  }
+
+  .speech {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: tomato;
   }
 </style>
