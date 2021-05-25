@@ -1,6 +1,6 @@
 # Pomodoro
 
-## Pomomdoro timer written with [Svelte](https://svelte.dev)
+## [Svelte](https://svelte.dev) Pomomdoro Timer
 
 https://helloitsjoe.github.io/pomodoro
 
