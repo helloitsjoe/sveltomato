@@ -44,14 +44,18 @@ describe('speech', () => {
 
     it.each`
       sentence                  | handler
+      ${'play'}                 | ${'play'}
       ${'play timer'}           | ${'play'}
       ${'start timer'}          | ${'play'}
       ${'play the timer'}       | ${'play'}
       ${'start the timer'}      | ${'play'}
+      ${'stop'}                 | ${'pause'}
+      ${'pause'}                | ${'pause'}
       ${'stop timer'}           | ${'pause'}
       ${'pause timer'}          | ${'pause'}
       ${'stop the timer'}       | ${'pause'}
       ${'pause the timer'}      | ${'pause'}
+      ${'reset'}                | ${'reset'}
       ${'reset timer'}          | ${'reset'}
       ${'reset the timer'}      | ${'reset'}
       ${'start the work timer'} | ${'startNewTimer'}
