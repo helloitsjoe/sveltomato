@@ -3,9 +3,11 @@
   import { createSpeechApi } from './speech';
   import { formatTime, timers } from './utils';
 
+  const params = new URLSearchParams(window.location.search);
+
   export let audio = new Audio('audio/weird-scream.wav');
-  export let enableSpeech = new URLSearchParams(location.search).get('speech');
-  export let seconds = new URLSearchParams(location.search).get('seconds');
+  export let enableSpeech = params.get('speech');
+  export let seconds = params.get('seconds');
 
   let interval;
   let running = false;
@@ -75,6 +77,7 @@
         resultNoMatch,
       })
     : null;
+
 </script>
 
 <main>
@@ -178,4 +181,5 @@
     text-transform: uppercase;
     color: tomato;
   }
+
 </style>
