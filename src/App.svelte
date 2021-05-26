@@ -21,7 +21,7 @@
   let userSaid = '';
 
   $: getActive = timer => (timer === currentTimer ? 'active' : '');
-  $: document.title = `${formatTime(timeLeft)} - Sveltomato`;
+  $: document.title = `${formatTime(timeLeft)} - Pomodoro`;
 
   const playSound = () => {
     audio.play();
