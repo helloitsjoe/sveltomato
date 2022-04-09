@@ -1,10 +1,10 @@
-# Pomodoro
+# 🍅⏲️ Pomodoro
 
 ## [Svelte](https://svelte.dev) Pomomdoro Timer
 
 https://helloitsjoe.github.io/pomodoro
 
-## Voice UI
+## 🗣️ Voice UI
 
 https://helloitsjoe.github.io/pomodoro?speech=true
 
